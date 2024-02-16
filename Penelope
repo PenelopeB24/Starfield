@@ -1,0 +1,68 @@
+int starSize = 5;
+int shipSize = 3;
+int numStars = 500;
+ArrayList<Particle> stars = new ArrayList<Particle> ();
+Random ships = new Random();
+
+void setup() {
+  noStroke();
+  size(500,500);
+  background(0);
+  for(int i = 0; i < numStars; i++) {
+    stars.add(new Particle());
+  }
+  stars.add(ships);
+}
+
+void draw() {
+  background(0);
+  stars.add(new Particle());
+  for(int i = 0; i < stars.size(); i++) {
+     stars.get(i).move();
+     stars.get(i).show();
+  }
+}
+class Particle {
+  double myX, myY, myAngle, mySpeed;
+  int starColor;
+  float r, g, b, a;
+  Particle() {
+    myX = width/2;
+    myY = height/2;
+    myAngle = Math.random()*2*Math.PI;
+    mySpeed = Math.random()*5;
+    r = (float)Math.random()*256;
+    g = (float)Math.random()*256;
+    b = (float)Math.random()*256;
+    //a = 0;
+  }
+
+  void move() {
+    myX += mySpeed*(Math.cos(myAngle));
+    myY += mySpeed*(Math.sin(myAngle));
+    //a += mySpeed;
+    a = map(pow(((float)myX-width/2), 2)+ pow(((float)myY-height/2), 2), 0, pow((width/2), 2) + pow((height/2), 2), 0, 255);
+  }
+
+  void show() {
+    fill(r, g, b, a);
+    ellipse((float)myX, (float)myY, starSize, starSize);
+  }
+}
+class Random extends Particle {
+  Random() {
+    myX = ((Math.random()*width));
+    myY = 250;
+    starColor = color(100, 20, 125);
+  }
+
+  void move() {
+    myX += (Math.random()*2); //speed
+    myY += (Math.random()*2)-1; //speed
+  }
+  
+  void show() {
+    fill(starColor);
+    ellipse((float)myX, (float)myY, starSize*5, starSize*5);
+  }
+}
